@@ -1,0 +1,27 @@
+﻿<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>QuanLySinhVien - Demo</title>
+</head>
+<body>
+  <h1>Ứng dụng đang chạy</h1>
+  <p>Danh sách dự báo thời tiết (từ endpoint <code>/weatherforecast</code>):</p>
+  <div id="forecast">Đang tải...</div>
+
+  <script>
+    async function load() {
+      try {
+        const res = await fetch('/weatherforecast');
+        const data = await res.json();
+        const container = document.getElementById('forecast');
+        container.innerHTML = '<ul>' + data.map(f => `<li>${new Date(f.date).toLocaleDateString()}: ${f.summary} (${f.temperatureC}°C / ${f.temperatureF}°F)</li>`).join('') + '</ul>';
+      } catch (e) {
+        document.getElementById('forecast').textContent = 'Lỗi khi tải dữ liệu.';
+      }
+    }
+    load();
+  </script>
+</body>
+</html>
